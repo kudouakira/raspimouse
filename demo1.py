@@ -28,13 +28,13 @@ class RP(object):
         print switch_motors(False)
 
     def left_walltrace(self):
-        p=0.1   #p_gain
-        e = p * (data_l - target)
-        motor_r = motor - e
-        motor_l = motor + e
+        p=0.1				 #p_gain  制御定数
+        e = p * (data_l - target)	#制御量 = 制御定数 * (左側のセンサー値 - コース真ん中時の左側のセンサー値)
+        motor_r = motor - e		#右モータの値(Hz) = 元のモータ値 - 制御量
+        motor_l = motor + e		#左モータの値	　= 元のモータ値 + 制御量
         raw_control(motor_l,motor_r)
 
-    def turn_right(self):
+    def turn_right(self):		#約９０度右旋回
         pos_control(0,0,0.1)
         pos_control(450,-450,0.5)
 
@@ -44,15 +44,15 @@ if __name__=='__main__':
     rp = RP()
     print switch_motors(True)
     print rp.p
-    target = 700
-    motor = 500
-    raw_control(motor,motor)
+    target = 700			#コースの真ん中時の左センサの値
+    motor = 500				#基本のモータの値
+    raw_control(motor,motor)		#走り出しで必要
     while not rospy.is_shutdown():
 	try:
-            t=threading.Timer(0.1,LightSensorValues)
+            t=threading.Timer(0.1,LightSensorValues)	#light_sensorの計測を0.1秒ごとに
             t.start()
-            time.sleep(0.1)
-            t.cancel()
+            time.sleep(0.1)				
+            t.cancel()					#thread0.1秒後に止める
 
 	    data_l = rp.get_left_lightsensor()
             data_f = rp.get_forward_lightsensor()
