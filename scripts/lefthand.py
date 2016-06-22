@@ -34,31 +34,29 @@ def lightsensor_callback(data):
     lightsensors.left_forward = data.left_forward
     lightsensors.right_forward = data.right_forward
 
-def switch_callback(data):
-    print "switches:",data.front, data.center, data.rear
-
-def pos_control(left_hz,right_hz,time_ms):
-    rospy.wait_for_service('/raspimouse/put_motor_freqs')
-    try:
-        p = rospy.ServiceProxy('/raspimouse/put_motor_freqs', PutMotorFreqs)
-        res = p(left_hz,right_hz,time_ms)
-        return res.accepted
-    except rospy.ServiceException, e:
-        print "Service call failed: %s"%e
-    else:
+def left_walltrace(ls):
+    if lightsensors.left_forward > 1500 or lightsensors.right_forward > 1500:
+        raw_control(0,0)
         return False
 
-
-def left_walltrace(ls):
-    motor = 500
-    #e = 0.2 * (ls.left_side + (ls.left_forward - ls.right_forward)*0.5 - 700)
+    base = 500
     e = 0.2 * (ls.left_side - 700)
-    motor_r = motor - e
-    motor_l = motor + e
-    raw_control(motor_l,motor_r)
+    raw_control(base + e,base - e)
+    return True
+        
+
+def turn(right):
+        if right:   raw_control(250,-250)
+        else:       raw_control(-250,250)
+        return lightsensors.left_forward > 500 or lightsensors.right_forward  > 500
+
+def stop_motors():
+    raw_control(0,0)
+    switch_motors(False)
 
 if __name__ == "__main__":
     rospy.init_node("lefthand")
+    rospy.on_shutdown(stop_motors)
 
     ### motor_raw test ###
     if not switch_motors(True):
@@ -68,33 +66,14 @@ if __name__ == "__main__":
     subls = rospy.Subscriber('/raspimouse/lightsensors', LightSensorValues, lightsensor_callback)
 
     r = rospy.Rate(10)
+
     wall = False
-    turnright = True
+    while not rospy.is_shutdown():
+        if wall:
+            wall = turn(lightsensors.left_side > 500)
+        else:
+            wall = not left_walltrace(lightsensors)
+            
+        r.sleep()
 
-    try:
-        while not rospy.is_shutdown():
-            if wall:
-                if turnright:
-                    raw_control(250,-250)
-                else:
-                    raw_control(-250,250)
-
-                if lightsensors.left_forward < 500 and lightsensors.right_forward  < 500:
-                    wall = False
-            else:
-                left_walltrace(lightsensors)
-
-                if lightsensors.left_forward > 1500 or lightsensors.right_forward > 1500:
-                    wall = True
-                    raw_control(0,0)
-                    if lightsensors.left_side > 500:
-                        turnright = True
-                    else:
-                        turnright = False
-                
-            r.sleep()
-
-    except rospy.ROSInterruptException:
-        raw_control(0,0)
-        switch_motors(False)
-
+    stop_motors()
