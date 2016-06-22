@@ -5,7 +5,6 @@ import rospy
 from std_msgs.msg import *
 from raspimouse_ros.msg import *
 from raspimouse_ros.srv import *
-from check_driver_io import *
 
 class RP(object):
     def __init__(self):
