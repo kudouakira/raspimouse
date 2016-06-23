@@ -44,7 +44,6 @@ def left_walltrace(ls):
     raw_control(base + e,base - e)
     return True
         
-
 def turn(right):
         if right:   raw_control(250,-250)
         else:       raw_control(-250,250)
