@@ -54,7 +54,7 @@ def turn_to_open_space(ls,r):
     if ls.left_side > ls.right_side:
         right = True
 
-    while ls.left_forward > 500 or ls.right_forward > 500:
+    while still_wall(ls):
         if right: turn_right()
         else: turn_left()
         r.sleep()
@@ -86,18 +86,18 @@ def find_wall(ls):
 
 if __name__ == "__main__":
     rospy.init_node("lefthand")
-    rospy.on_shutdown(stop_motors)
 
     if not switch_motors(True):
         print "[check failed]: motors are not empowered"
         sys.exit(1)
 
     lightsensors = LightSensorValues()
+    sub_ls = rospy.Subscriber('/raspimouse/lightsensors', LightSensorValues, lightsensor_callback)
     pub_motor = rospy.Publisher('/raspimouse/motor_raw', LeftRightFreq, queue_size=10)
-    subls = rospy.Subscriber('/raspimouse/lightsensors', LightSensorValues, lightsensor_callback)
+
+    rospy.on_shutdown(stop_motors)
 
     r = rospy.Rate(10)
-
     wall = False
     while not rospy.is_shutdown():
         if dead_end(lightsensors):
