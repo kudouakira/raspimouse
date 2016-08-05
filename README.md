@@ -22,3 +22,6 @@
 ~~~~
      $ rosrun raspimouse_ros lefthand.py
 ~~~~
+
+##動作確認済環境  
+  * Ubuntu Linux 14.04 on Raspberry Pi 2
