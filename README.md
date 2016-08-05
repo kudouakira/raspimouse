@@ -24,4 +24,4 @@
 ~~~~
 
 ##動作確認済環境  
-  * Ubuntu Linux 14.04 on Raspberry Pi 2
+  * Ubuntu Linux 14.04 server on Raspberry Pi 2
