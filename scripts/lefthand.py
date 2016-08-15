@@ -40,7 +40,7 @@ def left_walltrace(ls):
         return
 
     base = 500
-    e = 0.2 * (ls.left_side - 700)
+    e = 0.2 * (ls.left_side - 900)
     raw_control(base + e,base - e)
 
 def turn_right():
@@ -66,7 +66,7 @@ def stop_motors():
     switch_motors(False)
 
 def dead_end(ls):
-    th = 700
+    th = 800
     return ls.right_side > th \
         and ls.left_side > th \
         and ls.right_forward > th \
