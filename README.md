@@ -18,7 +18,7 @@
      $ cd ../..  
      $ catkin_make
 ~~~~  
-
+  
   6. lefthand.py 使用  
 ~~~~
      $ rosrun raspimouse_ros lefthand.py
