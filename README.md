@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # raspimouse_lefthand  
 
 ##使い方
@@ -29,4 +29,4 @@
 =======
 # raspimouse_lefthand
 
->>>>>>> 1c3ea0284356103dcce4794290fa88409f000e95
+
