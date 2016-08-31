@@ -66,17 +66,17 @@ def stop_motors():
     switch_motors(False)
 
 def dead_end(ls):
-    th = 700
+    th = 300
     return ls.right_side > th \
         and ls.left_side > th \
         and ls.right_forward > th \
         and ls.left_forward > th 
 
 def too_right(ls):
-    return ls.right_side > 2000
+    return ls.right_side > 2000 or ls.right_forward > 2000
 
 def too_left(ls):
-    return ls.left_side > 2000
+    return ls.left_side > 2000 or ls.left_forward > 2000
 
 def still_wall(ls):
     return ls.left_forward > 500 or ls.right_forward  > 500
@@ -97,7 +97,7 @@ if __name__ == "__main__":
 
     rospy.on_shutdown(stop_motors)
 
-    r = rospy.Rate(10)
+    r = rospy.Rate(20)
     wall = False
     while not rospy.is_shutdown():
         if dead_end(lightsensors):
