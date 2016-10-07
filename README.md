@@ -1,31 +1,17 @@
+# raspimouse_lefthand
 
-# raspimouse_lefthand  
+RaspberryPiMouse用、左手法のサンプルコードです。日経Linux 2016年9月号に掲載。連載で扱ったコードは、「ForNikkeiLinux201609」ブランチにあります。
 
-##使い方
-  1. Ubuntu Linux 14.04をインストール  
-    * 参考：https://wiki.ubuntu.com/ARM/RaspberryPi  
-  2. ROSインストール  
-    * 参考：https://github.com/ryuichiueda/ros_setup_scripts_Ubuntu14.04_server  
-  3. Raspberry Pi Mouseのドライバセットアップ
-    * 参考：https://github.com/rt-net/RaspberryPiMouse
-  4. Raspberry Pi Mouse制御用基盤ROSパッケージ
-    * 参考：https://github.com/ryuichiueda/raspimouse_ros
-  
-  5. raspimouse_lefthandのclone  
-~~~~
-     $ roscd raspimouse_ros/  
-     $ git clone https://github.com/kudouakira/raspimouse_lefthand.git  
-     $ cd ../..  
-     $ catkin_make
-~~~~  
-  
-  6. lefthand.py 使用  
-~~~~
-     $ rosrun raspimouse_ros lefthand.py
-~~~~
+# 必要なパッケージ
 
-##動作確認済環境  
-  * Ubuntu Linux 14.04 server on Raspberry Pi2
+* RaspberryPiMouse用ROS基本パッケージ: https://github.com/ryuichiueda/raspimouse_ros
+* ドライバ: https://github.com/rt-net/RaspberryPiMouse
 
+# 参考
 
+* https://blog.ueda.asia/?page_id=7166#201609
 
+# contributer
+
+* Akira Kudo
+* Ryuichi Ueda
