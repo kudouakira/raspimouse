@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
     lightsensors = LightSensorValues()
     sub_ls = rospy.Subscriber('/raspimouse/lightsensors', LightSensorValues, lightsensor_callback)
-    pub_motor = rospy.Publisher('/raspimouse/motor_raw', LeftRightFreqs, queue_size=10)
+    pub_motor = rospy.Publisher('/raspimouse/motor_raw', MotorFreqs, queue_size=10)
 
     rospy.on_shutdown(stop_motors)
 
