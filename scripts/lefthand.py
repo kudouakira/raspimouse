@@ -92,9 +92,8 @@ if __name__ == "__main__":
         sys.exit(1)
 
     lightsensors = LightSensorValues()
-    sub_ls = rospy.Subscriber('/lightsensors', LightSensorValues, lightsensor_callback)
+    sub_ls = rospy.Subscriber('/lightsensors', LightValues, lightsensor_callback)
     pub_motor = rospy.Publisher('/motor_raw', MotorFreqs, queue_size=10)
-
     rospy.on_shutdown(stop_motors)
 
     r = rospy.Rate(20)
