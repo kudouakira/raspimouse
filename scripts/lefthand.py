@@ -7,9 +7,9 @@ from raspimouse_ros.msg import *
 from std_msgs.msg import UInt16
 
 def switch_motors(onoff):
-    rospy.wait_for_service('/raspimouse/switch_motors')
+    rospy.wait_for_service('/switch_motors')
     try:
-        p = rospy.ServiceProxy('/raspimouse/switch_motors', SwitchMotors)
+        p = rospy.ServiceProxy('/switch_motors', SwitchMotors)
         res = p(onoff)
         return res.accepted
     except rospy.ServiceException, e:
@@ -18,8 +18,10 @@ def switch_motors(onoff):
         return False
 
 def raw_control(left_hz,right_hz):
+    pub = rospy.Publisher('/motor_raw', MotorFreqs, queue_size=10)
+
     if not rospy.is_shutdown():
-        d = LeftRightFreqs()
+        d = MotorFreqs()
         d.left = left_hz
         d.right = right_hz
         pub_motor.publish(d)
